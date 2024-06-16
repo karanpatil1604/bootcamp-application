@@ -4,17 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book List</title>
+    <title>Create New user</title>
 </head>
 
 <body>
-    <h1>List of User</h1>
-
-    {% for user in users %}
-    <li>username: {{ user.username }}| role: {{user.role}}</li>
-    {% endfor %}
-
-
     <div class="container-fluid">
         <div class="row">
             <h1>Register User</h1>
@@ -27,7 +20,7 @@
                 <input type="email" name="email" id="email">
                 <label for="password ">Password</label>
                 <input type="password" name="password" id="password">
-                <input type="submit" value="Submit">
+
             </form>
         </div>
     </div>
