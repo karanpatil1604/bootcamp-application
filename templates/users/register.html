@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row mt-3">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <div class="row py-2">
+                <h1 class="text-center">Register</h1>
+            </div>
+            <form class="form-group" action="/register" method="post">
+                <label class="form-label" for="user_name">User Name</label>
+                <input class="form-control" type="text" name="username" id="user_name" required>
+                <label class="form-label" for="email">Email</label>
+                <input class="form-control" type="email" name="email" id="email">
+                <label class="form-label" for="password ">Password</label>
+                <input class="form-control" type="password" name="password" id="password">
+                <button class="btn btn-primary py-2 my-2 w-100">Register</button>
+            </form>
+        </div>
+        <div class="col-4"></div>
+    </div>
+</div>
+{% endblock %}
