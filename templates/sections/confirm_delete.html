@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h3 class="text-center">Edit section</h3>
+<hr>
+<div class="row">
+    <div class="col-4 offset-4">
+        <form class="d-flex gap-2" action="/sections/delete/{{section.section_id}}" method="post">
+            <a class="btn btn-danger" href="/sections">Cancel</a>
+            <button class="btn btn-primary " type="submit">Confirm Delete</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<h1 class="text-center">Sections list</h1>
+<a class="btn btn-success m-2" href="/sections/create">Add Section</a>
+{% for section in sections %}
+<li>{{section.section_name}} | <a href="/sections/update/{{section.section_id}}">Edit</a> | <a
+        href="/sections/delete/{{section.section_id}}">Delete</a></li>
+{% endfor%}
+
+
+{% endblock %}

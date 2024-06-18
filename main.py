@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from sqlalchemy.exc import NoResultFound
 from db import db
-from models import User, Book
+from models import User, Book, Section
 
 app = Flask(__name__)
 
@@ -13,8 +13,13 @@ db.init_app(app)
 
 # http://localhost:8000/
 @app.route("/")
-def hello():
-    books = Book.query.all()
+def homepage():
+    if request.method == "GET":
+        search = request.args.get("search")
+        if search:
+            books = Book.query.filter_by(title=search)
+        else:
+            books = Book.query.all()
     return render_template("homepage.html", books=books)
 
 
@@ -63,7 +68,7 @@ def login():
             return redirect(url_for("login"))
         authenticated = check_password(user.password, password)
         if authenticated:
-            return redirect(url_for("hello"))
+            return redirect(url_for("homepage"))
         else:
             flash("Password is wrong.", "warning")
             return redirect(url_for("login"))
@@ -92,31 +97,62 @@ def list_users():
         return redirect(url_for("list_users"))
 
 
-# Create - We will send HTTP POST request with the form data to create a new entity
-# @app.route("/users")
-# def create_user(request):
-#     pass
+@app.route("/sections")
+def list_sections():
+    sections = Section.query.all()
+    return render_template("sections/list.html", sections=sections)
 
 
-# Retrieve
-@app.route("/users/<user_id>")
-def get_user(user_id):
-    pass
+@app.route("/sections/create", methods=["GET", "POST"])
+def create_section():
+    if request.method == "GET":
+        return render_template("sections/create.html")
+    elif request.method == "POST":
+        section_name = request.form.get("section-name")
+        if section_name:
+            new_section = Section(section_name=section_name)
+            db.session.add(new_section)
+            db.session.commit()
+            flash("Section created succesfully", "success")
+        return redirect(url_for("list_sections"))
 
 
-# Update
-@app.route("/users/<user_id>")
-def update_user(user_id):
-    pass
+@app.route("/sections/update/<section_id>", methods=["GET", "POST"])
+def update_section(section_id):
+    section = Section.query.get(section_id)
+    if request.method == "GET":
+        if not section_id:
+            flash("Can't find the section with given section id", "warning")
+            return redirect(url_for("list_sections"))
+        return render_template("sections/update.html", section=section)
+    elif request.method == "POST":
+        new_section_name = request.form.get("section-name")
+        if new_section_name:
+            section.section_name = new_section_name
+            db.session.add(section)
+            db.session.commit()
+        flash("Section updated successfully", "success")
+        return redirect(url_for("list_sections"))
 
 
-# Delete
-@app.route("/users/<user_id>")
-def delete_user(user_id):
-    pass
+@app.route("/sections/delete/<section_id>", methods=["GET", "POST"])
+def delete_section(section_id):
+    section = Section.query.get(section_id)
+    if request.method == "GET":
+        return render_template("sections/confirm_delete.html", section=section)
+    elif request.method == "POST":
+        db.session.delete(section)
+        db.session.commit()
+        flash("Section deleted successfully", "warning")
+        return redirect(url_for("list_sections"))
+
+
+@app.route("/create_tables")
+def create_tables():
+    with app.app_context():
+        db.create_all()
+    return "Tables created succesfully"
 
 
 if __name__ == "__main__":
-    with app.app_context():
-        db.create_all()
     app.run(host="localhost", port=8000, debug=True)
