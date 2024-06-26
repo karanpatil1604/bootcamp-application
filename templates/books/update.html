@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h3 class="text-center">Edit section</h3>
+<hr>
+<div class="row">
+    <div class="col-4 offset-4">
+        <form class="d-flex flex-column gap-2" action="/sections/update/{{section.section_id}}" method="post">
+            <label class="form-label" for="section_name">Section Name</label>
+            <input class="form-control" id="section_name" name="section-name" type="text"
+                value="{{section.section_name}}">
+            <button class="btn btn-primary w-100" type="submit">Update Section</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

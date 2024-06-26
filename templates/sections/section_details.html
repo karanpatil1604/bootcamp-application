@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<h1 class="text-center">Section Name: {{ section.section_name}}</h1>
+{% if session.get('username') and session.get('role') == 'admin' %}
+<a class="btn btn-success m-2" href="/books/create">Add Book</a>
+{% endif %}
+{% for book in section.books %}
+<li>{{book.title}} {% if session.get('role') == 'admin'%}| <a href="/books/update/{{book.book_id}}">Edit</a> |
+        <a href="/books/delete/{{book.book_id}}">Delete</a> {% endif%}
+</li>
+{% endfor%}
+
+
+{% endblock %}

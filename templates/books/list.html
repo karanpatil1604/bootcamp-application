@@ -7,9 +7,9 @@
 <a class="btn btn-success m-2" href="/sections/create">Add Section</a>
 {% endif %}
 {% for section in sections %}
-<li><a href="/sections/{{section.section_id}}">{{section.section_name}}</a> {% if session.get('role') == 'admin'%}| <a
-                href="/sections/update/{{section.section_id}}">Edit</a> | <a
-                href="/sections/delete/{{section.section_id}}">Delete</a> {% endif%}</li>
+<li>{{section.section_name}} {% if session.get('role') == 'admin'%}| <a
+        href="/sections/update/{{section.section_id}}">Edit</a> | <a
+        href="/sections/delete/{{section.section_id}}">Delete</a> {% endif%}</li>
 {% endfor%}
 
 

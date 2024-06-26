@@ -7,6 +7,7 @@ from app.models import User, Book, Section
 
 from app.bp.users import bp as user_bp
 from app.bp.sections import bp as section_bp
+from app.bp.books import bp as book_bp
 
 app = Flask(__name__)
 
@@ -41,8 +42,14 @@ def create_tables():
     return "Tables created succesfully"
 
 
+@app.route("/issue/<book_id>")
+def new_issue(book_id):
+    user_id = session.get("user_id")
+
+
 app.register_blueprint(user_bp)
 app.register_blueprint(section_bp)
+app.register_blueprint(book_bp)
 
 if __name__ == "__main__":
     app.run(host="localhost", port=8000)
