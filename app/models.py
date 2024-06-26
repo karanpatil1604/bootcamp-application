@@ -40,3 +40,49 @@ class BookIssue(db.Model):
     date_returned = db.Column(db.Date, nullable=True)
     is_revoked = db.Column(db.Boolean, default=False)
     request_accepted = db.Column(db.Boolean, default=False)
+
+    # class BaseUser(db.Model):
+    #     # id
+    #     # username
+    #     # password
+    #     # email
+    #     # role
+    #     pass
+
+    # class InfluencerDetails(db.Model):
+    # id
+    #   user_id = foreignkey(user.user_id)
+    #   url
+    # platform_name
+    # number of following
+    ...
+
+    #     # yturl
+    #     # insta
+    #     # ...
+    #     pass
+
+    # class SponsorDetails(db.Model):
+    #     # id
+    #     # username
+    #  industry name
+    #     # yturl
+    #     # insta
+    #     # ...
+    #     pass
+
+    # class Campaign():
+    id
+    # name
+    # description
+    # useri_id
+    # status
+    # budget
+
+
+# class CampaignRequest():
+# user_id
+# campaign_id
+# is_approved
+# request_from
+# request_to

@@ -2,11 +2,11 @@
 
 
 {% block content %}
-<h1 class="text-center">Sections list</h1>
+<h1 class="text-center">Section Name: {{ section.section_name}}</h1>
 {% if session.get('username') and session.get('role') == 'admin' %}
 <a class="btn btn-success m-2" href="/sections/create">Add Section</a>
 {% endif %}
-{% for section in sections %}
+{% for book in section.books %}
 <li>{{section.section_name}} {% if session.get('role') == 'admin'%}| <a
         href="/sections/update/{{section.section_id}}">Edit</a> | <a
         href="/sections/delete/{{section.section_id}}">Delete</a> {% endif%}</li>

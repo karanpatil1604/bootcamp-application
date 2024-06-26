@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from sqlalchemy.exc import NoResultFound
 
 from app.config import LocalConfig
@@ -24,7 +24,14 @@ def homepage():
             books = Book.query.filter_by(title=search)
         else:
             books = Book.query.all()
-    return render_template("homepage.html", books=books)
+        session_details = (
+            session.get("username"),
+            session.get("role"),
+            session.get("email"),
+        )
+    return render_template(
+        "homepage.html", books=books, session_details=session_details
+    )
 
 
 @app.route("/create_tables")
