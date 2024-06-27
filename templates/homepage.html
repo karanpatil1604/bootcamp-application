@@ -12,16 +12,15 @@
                 <h5 class="card-title">{{ book.title }}</h5>
                 <p class="card-text">{{ book.description}}</p>
                 <p class="card-text">{{ book.content}}</p>
-                <a href="#" class="btn btn-primary">Request Book</a>
+                {% if session['role'] != 'admin' %}
+                <form action="/issue/{{book.book_id}}" method="POST">
+                    <button type="submit" class="btn btn-primary">Request Book</button>
+                </form>
+                {% endif %}
             </div>
         </div>
     </div>
     {% endfor %}
-    {% for detail in session_details %}
-    <p>{{ detail }}</p>
-    {% endfor %}
-    <!-- <div class="col-3 bg-secondary">2</div>
-    <div class="col-3 bg-primary">3</div>
-    <div class="col-3 bg-secondary">4</div> -->
+
 </div>
 {% endblock%}

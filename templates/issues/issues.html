@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+
+{% block content%}
+{% if session['role'] == 'student'%}
+<h1>Your Issues</h1>
+{% else %}
+<h1>List of issues</h1>
+{% endif%}
+<div>
+    {% if session['role'] == 'student'%}
+    <h2>Requests</h2>
+    {% else %}
+    <h2>Requests</h2>
+
+    {% endif%}
+    {% if issues[0] %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Sr. No.</th>
+                <th scope="col">Book Id</th>
+                <th scope="col">Student Id</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for issue in issues %}
+            {% if not issue.request_accepted%}
+            <tr>
+                <th scope="row">{{loop.index}}</th>
+                <td>{{issue.book_id}}</td>
+                <td>{{issue.user_id}}</td>
+                <td>
+                    <button>Accept</button>
+                    <button>Reject</button>
+                </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>You have not requested any books</p>
+    {% endif%}
+</div>
+<div>
+    <h2>Issued</h2>
+</div>
+
+
+{% endblock%}

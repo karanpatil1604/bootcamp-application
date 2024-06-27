@@ -68,6 +68,7 @@ def login():
             return redirect(url_for("user.login"))
         authenticated = check_password_hash(user.password, password)
         if authenticated:
+            session["user_id"] = user.user_id
             session["username"] = user.username
             session["role"] = user.role
             session["email"] = user.email
@@ -81,6 +82,7 @@ def login():
 
 @bp.route("/logout")
 def logout():
+    session.pop("user_id")
     session.pop("username")
     session.pop("role")
     session.pop("email")
@@ -112,6 +114,7 @@ def list_users():
 
 def login_required(role):
     def decorator(original):
+        @wraps(original)
         def wrapper(*args, **kwargs):
             if (
                 session.get("username")

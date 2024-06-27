@@ -10,7 +10,6 @@ bp = Blueprint("section", __name__, url_prefix="")
 
 
 @bp.route("/sections")
-@login_required("admin")
 def list_sections():
     # if sesssion role is admin
     # otherwise redirct with flash need to login as admin
@@ -19,6 +18,7 @@ def list_sections():
 
 
 @bp.route("/sections/<section_id>", methods=["GET", "POST"])
+# @login_required("admin")
 def retrieve_section(section_id):
     if request.method == "GET":
         section = Section.query.get(section_id)
@@ -26,7 +26,7 @@ def retrieve_section(section_id):
 
 
 @bp.route("/sections/create", methods=["GET", "POST"])
-# @login_required("admin")
+@login_required("admin")
 def create_section():
     if request.method == "GET":
         return render_template("sections/create.html")
@@ -41,6 +41,7 @@ def create_section():
 
 
 @bp.route("/sections/update/<section_id>", methods=["GET", "POST"])
+@login_required("admin")
 def update_section(section_id):
     section = Section.query.get(section_id)
     if request.method == "GET":
@@ -59,6 +60,7 @@ def update_section(section_id):
 
 
 @bp.route("/sections/delete/<section_id>", methods=["GET", "POST"])
+@login_required("admin")
 def delete_section(section_id):
     section = Section.query.get(section_id)
     if request.method == "GET":

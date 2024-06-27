@@ -2,6 +2,7 @@ from flask import Blueprint, request, render_template, url_for, redirect
 
 from app.db import db
 from app.models import Book, Section
+from app.bp.users import login_required
 
 bp = Blueprint("book", __name__, url_prefix="")
 
@@ -10,7 +11,7 @@ bp = Blueprint("book", __name__, url_prefix="")
 
 
 @bp.route("/books/create", methods=["GET", "POST"])
-# @login_required("admin")
+@login_required("admin")
 def create_section():
     if request.method == "GET":
         sections = Section.query.all()

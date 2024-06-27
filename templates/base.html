@@ -39,9 +39,13 @@
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="/sections">Section</a>
                     </li>
-                    {% if session["username"] %}
+                    {% if session["username"] and session['role'] == 'student' %}
                     <li class="nav-item">
-                        <a class="nav-link" href="#">My subscriptions</a>
+                        <a class="nav-link" href="/my-issues">My subscriptions</a>
+                    </li>
+                    {% elif session['role'] == 'admin'%}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/issues">Issue Requests</a>
                     </li>
                     {% endif%}
                     <li class="nav-item dropdown">
