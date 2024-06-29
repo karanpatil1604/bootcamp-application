@@ -1,9 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask_restful import Api
 from sqlalchemy.exc import NoResultFound
 
 from app.config import LocalConfig
 from app.db import db
 from app.models import User, Book, Section
+from app.resources.api import HelloWorld
 
 from app.bp.users import bp as user_bp
 from app.bp.sections import bp as section_bp
@@ -31,6 +33,11 @@ def homepage():
     return render_template("homepage.html", books=books)
 
 
+# @app.route("/api/hello")  # Get request sent
+# def hello():
+#     return {"hello": "world"}
+
+
 @app.route("/create_tables")
 def create_tables():
     with app.app_context():
@@ -48,6 +55,12 @@ app.register_blueprint(section_bp)
 app.register_blueprint(book_bp)
 app.register_blueprint(issue_bp)
 
+
+api = Api(app)
+
+api.add_resource(HelloWorld, "/api/hello")
+# api.add_resource(SectionResource, "/api/section", "/api/section/<section_id>")
+# api.add_resource(Someresrouce, "/api/hello")
 
 if __name__ == "__main__":
     app.run(host="localhost", port=8000)

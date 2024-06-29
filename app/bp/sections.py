@@ -1,5 +1,8 @@
+import json
+
 from flask import Blueprint, request, render_template, redirect, flash, url_for
 from sqlalchemy.exc import NoResultFound
+from sqlalchemy.orm.exc import UnmappedInstanceError
 
 from app.db import db
 from app.models import Section
@@ -70,3 +73,34 @@ def delete_section(section_id):
         db.session.commit()
         flash("Section deleted successfully", "warning")
         return redirect(url_for("section.list_sections"))
+
+
+@bp.route("/api/sections/<section_id>", methods=["PUT", "DELETE"])
+def update_or_delete(section_id):
+    try:
+        section = Section.query.get(section_id)
+    except:
+        return {"message": "Section Does Not Exist."}
+    if request.method == "PUT":
+        data = json.loads(request.data)
+        # json.dumps
+
+        section_name = data.get("section_name")
+        # update the record
+        if section_name:
+            section.section_name = section_name
+            db.session.add(section)
+            db.session.commit()
+            return {
+                "message": "Section successfully updated.",
+                "section_id": section.section_id,
+                "section_name": section.section_name,
+            }
+    if request.method == "DELETE":
+        # delete the record from the database
+        try:
+            db.session.delete(section)
+            db.session.commit()
+            return {"message": "Section deleted sucessfully."}
+        except UnmappedInstanceError as e:
+            return {"message": "Something went wrong", "details": str(e)}
